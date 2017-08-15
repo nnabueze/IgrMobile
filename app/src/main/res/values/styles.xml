@@ -27,9 +27,9 @@
     </style>
 
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/iron</item>
         <item name="android:textColorPrimary">@color/iron</item>
-        <item name="android:background">@color/primary</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
 </resources>

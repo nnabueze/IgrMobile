@@ -2,6 +2,7 @@ package com.example.eze.igrmobile;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -37,9 +38,17 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login();
+                Intent i = new Intent(LoginActivity.this, Dashboard.class);
+                startActivity(i);
             }
         });
+
+/*        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                login();
+            }
+        });*/
     }
 
     private void login() {
