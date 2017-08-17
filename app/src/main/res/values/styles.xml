@@ -16,7 +16,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:windowBackground">@color/white</item>
 
         <item name="colorControlNormal">@color/monsoon</item>
         <item name="colorControlActivated">@color/black</item>
@@ -27,8 +27,9 @@
     </style>
 
     <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
-        <item name="colorAccent">@color/iron</item>
-        <item name="android:textColorPrimary">@color/iron</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
 

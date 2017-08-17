@@ -5,5 +5,5 @@ package com.example.eze.igrmobile;
  */
 
 public class Utility {
-    public static final String LOGIN_URL ="";
+    public static final String LOGIN_URL ="http://igr.ercasng.com/api/igr_api_mobile";
 }

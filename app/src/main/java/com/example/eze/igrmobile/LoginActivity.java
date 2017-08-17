@@ -9,22 +9,32 @@ import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.*;
+import com.android.volley.toolbox.Volley;
+import com.example.eze.igrmobile.model.Auth;
+import com.example.eze.igrmobile.parser.AuthParser;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private Auth auth;
     @Bind(R.id.input_email) EditText emailText;
     @Bind(R.id.input_password) EditText passwordText;
     @Bind(R.id.btn_login) Button loginButton;
@@ -38,17 +48,9 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, Dashboard.class);
-                startActivity(i);
-            }
-        });
-
-/*        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 login();
             }
-        });*/
+        });
     }
 
     private void login() {
@@ -57,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (!isOnLine()){
-            Toast.makeText(this, "Network not available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Network isn't available", Toast.LENGTH_SHORT).show();
         }else{
            makeCall();
         }
@@ -68,13 +70,15 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
-
         StringRequest request = new StringRequest(Request.Method.POST, Utility.LOGIN_URL,
 
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         progressDialog.dismiss();
+                        auth = AuthParser.parseFeed(response);
+                        responseResult();
+
                     }
                 },
 
@@ -82,9 +86,42 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
+                        Log.d("Volley", error.getMessage());
                         onLoginFailDialog();
                     }
-                });
+                }){
+            //adding header param
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", emailText.getText().toString());
+                params.put("password", passwordText.getText().toString());
+
+                return params;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(request);
+    }
+
+    private void responseResult() {
+        if (auth == null){
+            Toast.makeText(this, "Parser Error occurred", Toast.LENGTH_SHORT).show();
+        }else {
+            Intent i = new Intent(this, Dashboard.class);
+            i.putExtra("token", auth.getToken());
+            i.putExtra("lastMonth", auth.getLastMonth());
+            i.putExtra("currentMonth", auth.getCurrentMonth());
+            i.putExtra("yestarday", auth.getYestarday());
+            i.putExtra("today", auth.getToday());
+            i.putExtra("name",auth.getName());
+            i.putExtra("id", auth.getId());
+            i.putExtra("image", auth.getImage());
+
+            startActivity(i);
+        }
     }
 
     private void onLoginFailDialog() {
