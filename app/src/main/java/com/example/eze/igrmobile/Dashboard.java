@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -21,6 +23,21 @@ public class Dashboard extends AppCompatActivity {
         setUpNavigationDrawerMenu();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.overlay_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.logout:
+                break;
+        }
+        return true;
+    }
+
     private void setUpNavigationDrawerMenu() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -34,6 +51,9 @@ public class Dashboard extends AppCompatActivity {
 
     private void setUpToolBarMenu() {
         toolbar = (Toolbar) findViewById(R.id.toolBar);
-        toolbar.setTitle("Navigation Menu");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Dashboard");
     }
+
 }
+

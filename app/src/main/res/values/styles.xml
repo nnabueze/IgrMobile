@@ -32,5 +32,9 @@
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
+    <style name="MyPopupMenu" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
 
 </resources>

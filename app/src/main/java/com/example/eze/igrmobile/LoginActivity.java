@@ -56,12 +56,12 @@ public class LoginActivity extends AppCompatActivity {
     private void login() {
         if (!validate()){
             onLoginFail();
-        }
-
-        if (!isOnLine()){
-            Toast.makeText(this, "Network isn't available", Toast.LENGTH_SHORT).show();
         }else{
-           makeCall();
+            if (!isOnLine()){
+                Toast.makeText(this, "Network isn't available", Toast.LENGTH_SHORT).show();
+            }else{
+                makeCall();
+            }
         }
     }
 
