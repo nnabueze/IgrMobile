@@ -32,20 +32,10 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-medium"
             android:gravity="bottom"
-            android:text="Biller Name"
+            android:text=""
             android:textSize="14sp"
             android:textColor="@color/white"
             android:id="@+id/billerName"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif"
-            android:gravity="bottom"
-            android:text="Biller Email"
-            android:textSize="14sp"
-            android:textColor="@color/white"
-            android:id="@+id/billerEmail"/>
 
     </LinearLayout>
 

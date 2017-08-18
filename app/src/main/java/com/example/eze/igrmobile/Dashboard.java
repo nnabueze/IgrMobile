@@ -6,13 +6,18 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import java.text.DecimalFormat;
 
 public class Dashboard extends AppCompatActivity {
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
+    private TextView lastMonth, currentMonth, yestarday, today;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +26,27 @@ public class Dashboard extends AppCompatActivity {
 
         setUpToolBarMenu();
         setUpNavigationDrawerMenu();
+
+        setTextView();
+    }
+
+    private void setTextView() {
+        lastMonth = (TextView) findViewById(R.id.lastMonth);
+        currentMonth = (TextView) findViewById(R.id.currentMonth);
+        yestarday = (TextView) findViewById(R.id.yestarday);
+        today = (TextView) findViewById(R.id.today);
+
+        Bundle extra = getIntent().getExtras();
+        if (extra == null){
+            Log.d("Dashboard","Missing param");
+        }else {
+
+            lastMonth.setText(numberFormat(extra.getString("lastMonth")));
+            currentMonth.setText(numberFormat(extra.getString("currentMonth")));
+            yestarday.setText(numberFormat(extra.getString("yestarday")));
+            today.setText(numberFormat(extra.getString("today")));
+
+        }
     }
 
     @Override
@@ -53,6 +79,14 @@ public class Dashboard extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Dashboard");
+    }
+
+    private String numberFormat(String number){
+        double num = Double.parseDouble(number);
+        DecimalFormat money = new DecimalFormat("###,###,###,###");
+        String formattedText = "₦" + money.format(num);
+
+        return formattedText;
     }
 
 }
