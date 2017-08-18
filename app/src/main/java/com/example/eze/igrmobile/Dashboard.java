@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -17,7 +18,8 @@ public class Dashboard extends AppCompatActivity {
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
-    private TextView lastMonth, currentMonth, yestarday, today;
+    private TextView lastMonth, currentMonth, yestarday, today, billerName;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,9 @@ public class Dashboard extends AppCompatActivity {
         yestarday = (TextView) findViewById(R.id.yestarday);
         today = (TextView) findViewById(R.id.today);
 
+        View header = navigationView.getHeaderView(0);
+        billerName = (TextView) header.findViewById(R.id.billerName);
+
         Bundle extra = getIntent().getExtras();
         if (extra == null){
             Log.d("Dashboard","Missing param");
@@ -45,6 +50,7 @@ public class Dashboard extends AppCompatActivity {
             currentMonth.setText(numberFormat(extra.getString("currentMonth")));
             yestarday.setText(numberFormat(extra.getString("yestarday")));
             today.setText(numberFormat(extra.getString("today")));
+            billerName.setText(extra.getString("name"));
 
         }
     }
@@ -65,7 +71,7 @@ public class Dashboard extends AppCompatActivity {
     }
 
     private void setUpNavigationDrawerMenu() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
