@@ -17,7 +17,13 @@
             android:id="@+id/toolBar"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"></LinearLayout>
+            android:layout_height="200dp"
+            android:background="#BDBDBD">
+            <com.jjoe64.graphview.GraphView
+                android:layout_width="match_parent"
+                android:layout_height="200dip"
+                android:id="@+id/graph" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

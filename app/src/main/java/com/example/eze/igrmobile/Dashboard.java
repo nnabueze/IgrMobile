@@ -1,5 +1,6 @@
 package com.example.eze.igrmobile;
 
+import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,6 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import java.text.DecimalFormat;
 
 public class Dashboard extends AppCompatActivity {
@@ -20,6 +27,8 @@ public class Dashboard extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private TextView lastMonth, currentMonth, yestarday, today, billerName;
     private NavigationView navigationView;
+
+    private Bundle extra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +50,7 @@ public class Dashboard extends AppCompatActivity {
         View header = navigationView.getHeaderView(0);
         billerName = (TextView) header.findViewById(R.id.billerName);
 
-        Bundle extra = getIntent().getExtras();
+        extra = getIntent().getExtras();
         if (extra == null){
             Log.d("Dashboard","Missing param");
         }else {
@@ -52,6 +61,7 @@ public class Dashboard extends AppCompatActivity {
             today.setText(numberFormat(extra.getString("today")));
             billerName.setText(extra.getString("name"));
 
+            plotGraph();
         }
     }
 
@@ -93,6 +103,33 @@ public class Dashboard extends AppCompatActivity {
         String formattedText = "₦" + money.format(num);
 
         return formattedText;
+    }
+
+    private void plotGraph(){
+
+        GraphView graph = (GraphView) findViewById(R.id.graph);
+        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 0),
+                new DataPoint(1, Double.parseDouble(extra.getString("lastMonth"))),
+                new DataPoint(2, Double.parseDouble(extra.getString("currentMonth"))),
+                new DataPoint(3, Double.parseDouble(extra.getString("yestarday"))),
+                new DataPoint(4, Double.parseDouble(extra.getString("today")))
+        });
+        graph.addSeries(series);
+
+// styling
+        series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+            @Override
+            public int get(DataPoint data) {
+                return Color.rgb((int) data.getX()*255/4, (int) Math.abs(data.getY()*255/6), 100);
+            }
+        });
+
+        series.setSpacing(20);
+
+// draw values on top
+        series.setDrawValuesOnTop(true);
+        series.setValuesOnTopColor(Color.RED);
     }
 
 }
