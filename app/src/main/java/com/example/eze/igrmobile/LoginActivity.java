@@ -3,9 +3,11 @@ package com.example.eze.igrmobile;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -119,6 +121,18 @@ public class LoginActivity extends AppCompatActivity {
             i.putExtra("id", auth.getId());
             i.putExtra("image", auth.getImage());
 
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("token",auth.getToken());
+            editor.putString("lastMonth", auth.getLastMonth());
+            editor.putString("currentMonth", auth.getCurrentMonth());
+            editor.putString("yestarday", auth.getYestarday());
+            editor.putString("today", auth.getToday());
+            editor.putString("name",auth.getName());
+            editor.putString("id", auth.getId());
+            editor.putString("image", auth.getImage());
+            editor.commit();
+
             startActivity(i);
         }
     }
@@ -175,5 +189,10 @@ public class LoginActivity extends AppCompatActivity {
             passwordText.setError(null);
         }
         return valid;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

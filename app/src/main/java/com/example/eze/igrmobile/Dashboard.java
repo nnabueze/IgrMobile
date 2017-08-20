@@ -1,7 +1,10 @@
 package com.example.eze.igrmobile;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
@@ -21,7 +25,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.text.DecimalFormat;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -84,6 +88,8 @@ public class Dashboard extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
+        navigationView.setNavigationItemSelectedListener(this);
+
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
                 drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
 
@@ -132,5 +138,47 @@ public class Dashboard extends AppCompatActivity {
         series.setValuesOnTopColor(Color.RED);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        closeDrawer();
+
+        switch(item.getItemId()){
+            case R.id.dashboard:
+                Utility.dashboard(this);
+                Toast.makeText(this, "clicked dashboard", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.mda:
+                Toast.makeText(this, "clicked mda", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.pos:
+                Toast.makeText(this, "clicked pos", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.remittance:
+                Toast.makeText(this, "clicked Remittance", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ebills:
+                Toast.makeText(this, "clicked ebills", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.logout:
+                Toast.makeText(this, "clicked logout", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
+    }
+
+    private void closeDrawer() {
+        drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)){
+            closeDrawer();
+        }else{
+            super.onBackPressed();
+        }
+
+    }
 }
 
